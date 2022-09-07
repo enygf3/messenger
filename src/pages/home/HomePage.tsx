@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faBars } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faBars, faPen } from '@fortawesome/free-solid-svg-icons'
 import './styles.sass'
 import { Dialog } from "./types"
 
@@ -29,6 +29,10 @@ const HomePage = () => {
         }
     ])
 
+    const cutText = (text: string, length: number) => {
+        return text.length > length ? text.slice(0, length) + '...' : text
+    }
+
     return (
         <>
             <header className='row'>
@@ -41,18 +45,27 @@ const HomePage = () => {
                 </div>
             </header>
             <main>
-                <div className='column'>
+                <div className='column dialogs'>
+                    <h3>Messages</h3>
                     { dialogs?.map(item => {
-                        return <div className='column dialog'>
-                            <h3>{item?.username}</h3>
-                            <p>
+                        return <div className='row dialog'>
+                            <div className='dialog-img'>
+                                <p>{item.username[0]}</p>
+                            </div>
+                            <div className='column'>
+                                <h3>{item?.username}</h3>
+                                <p>
                             <span>
                                 {item?.lastMessageTime}
                             </span>
-                                {item?.lastMessage}
-                            </p>
+                                    {cutText(item?.lastMessage, 19)}
+                                </p>
+                            </div>
                         </div>
                     }) }
+                </div>
+                <div className='main-btn new-msg'>
+                    <FontAwesomeIcon icon={faPen} />
                 </div>
             </main>
         </>
