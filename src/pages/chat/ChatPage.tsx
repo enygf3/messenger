@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {ChangeEvent, useState, KeyboardEvent, useRef} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical, faFaceSmile, faGear, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import {ChatDialog} from "./types";
@@ -32,39 +32,48 @@ const ChatPage = () => {
                 time: '12:33',
                 fromMe: true,
             },
-            {
-                text: 'I\'m fine, thanks! You?',
-                time: '12:33',
-                fromMe: true,
-            },
-            {
-                text: 'I\'m fine, thanks! You?',
-                time: '12:33',
-                fromMe: true,
-            },
-            {
-                text: 'I\'m fine, thanks! You?',
-                time: '12:33',
-                fromMe: true,
-            },
-            {
-                text: 'I\'m fine, thanks! You?',
-                time: '12:33',
-                fromMe: true,
-            },
-            {
-                text: 'I\'m fine, thanks! You?',
-                time: '12:33',
-                fromMe: true,
-            },
-            {
-                text: 'I\'m fine, thanks! You?',
-                time: '12:33',
-                fromMe: true,
-            },
+
         ],
         user: 'John Doe',
     })
+    const messagesRef = useRef<HTMLDivElement>(null)
+
+    const smoothScrollToBottom = () => {
+        setTimeout(() => {
+            if (messagesRef.current) {
+                messagesRef.current.scrollTo({
+                    behavior: 'smooth', top: messagesRef.current.scrollHeight
+                })
+            }
+        }, 0)
+    }
+
+    const pushMessage = (message: string, date: string) => {
+        setDialog({
+            ...dialog,
+            messages: [
+                ...dialog.messages,
+                {
+                    text: message,
+                    time: date,
+                    fromMe: true,
+                }
+            ]
+        })
+
+            smoothScrollToBottom()
+    }
+
+    const handleMessage = (event: KeyboardEvent) => {
+        const target = event.target as HTMLInputElement
+        const date = new Date().toLocaleTimeString().split(':')
+        console.log(target.value)
+        if (event.key === 'Enter') {
+            pushMessage(target.value, `${date[0]}:${date[1]}`)
+            target.value = ''
+        }
+    }
+
     return (
         <>
             <main>
@@ -79,7 +88,7 @@ const ChatPage = () => {
                         </div>
                     </div>
                 </header>
-                <div className='column dialogs chat-dialogs'>
+                <div ref={messagesRef} className='column dialogs chat-dialogs'>
                     { dialog.messages?.map(item => {
                         return <div className='row dialog message'>
                             <div className='dialog-img'>
@@ -95,9 +104,9 @@ const ChatPage = () => {
                             </div>
                         </div>
                     }) }
-                </div>
+                </div >
                 <div className='chat-input'>
-                    <input type='text' placeholder='Type your message'/>
+                    <input type='text' placeholder='Type your message' onKeyUp={handleMessage}/>
                     <div className='row jst-start'>
                         <FontAwesomeIcon className='fa-lg' icon={faFaceSmile} />
                         <FontAwesomeIcon className='fa-lg' icon={faLocationDot} />
