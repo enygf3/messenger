@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faBars, faPen } from '@fortawesome/free-solid-svg-icons'
 import './styles.sass'
 import { Dialog } from "./types"
+import {Link} from "react-router-dom";
 
 const HomePage = () => {
     const [dialogs, setDialogs] = useState<Dialog[]>([
@@ -38,7 +39,7 @@ const HomePage = () => {
             <header className='row'>
                 <FontAwesomeIcon icon={faBars} />
                 <div className='header-search'>
-                    <input type='text'/>
+                    <input type='search'/>
                     <span>
                     <FontAwesomeIcon icon={faSearch} />
                 </span>
@@ -64,9 +65,11 @@ const HomePage = () => {
                         </div>
                     }) }
                 </div>
-                <div className='main-btn new-msg'>
-                    <FontAwesomeIcon icon={faPen} />
-                </div>
+                <Link to='/chat'>
+                    <div className='main-btn new-msg'>
+                        <FontAwesomeIcon icon={faPen} />
+                    </div>
+                </Link>
             </main>
         </>
   );
