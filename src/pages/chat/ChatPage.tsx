@@ -1,6 +1,6 @@
-import React, {ChangeEvent, useState, KeyboardEvent, useRef} from "react";
+import React, {useState, KeyboardEvent, useRef} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisVertical, faFaceSmile, faGear, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisVertical, faFaceSmile, faGear, faLocationDot, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import {ChatDialog} from "./types";
 import './styles.sass'
 
@@ -37,6 +37,8 @@ const ChatPage = () => {
         user: 'John Doe',
     })
     const messagesRef = useRef<HTMLDivElement>(null)
+    const chatHeaderRef = useRef<HTMLDivElement>(null)
+    const searchBarRef = useRef<HTMLInputElement>(null)
 
     const smoothScrollToBottom = () => {
         setTimeout(() => {
@@ -74,25 +76,54 @@ const ChatPage = () => {
         }
     }
 
+    const toggleBars = () => {
+        if (chatHeaderRef.current && searchBarRef.current) {
+            chatHeaderRef.current.classList.toggle('header-hide')
+            searchBarRef.current.classList.toggle('search-active')
+        }
+    }
+
+    const closeSearch = (event: UIEvent) => {
+        const target = event.target as HTMLInputElement
+        if (!target.classList.contains('search-active')) {
+            window.removeEventListener('click', closeSearch)
+            toggleBars()
+        }
+    }
+
+    const openSearch = () => {
+        if (chatHeaderRef.current && searchBarRef.current) {
+            toggleBars()
+            searchBarRef.current.focus()
+            setTimeout(() => {
+                if (searchBarRef.current && searchBarRef.current.classList.contains('search-active')) {
+                    window.addEventListener('click', closeSearch)
+                }
+            }, 0)
+        }
+    }
+
     return (
         <>
             <main>
                 <header>
-                    <div className='row jst-start chat'>
+                    <div className='row jst-start chat-header' ref={chatHeaderRef}>
                         <div className='dialog-img'>
                             <p>{dialog.user[0]}</p>
                         </div>
                         <h3>{dialog.user}</h3>
                         <div className='chat-settings'>
+                            <FontAwesomeIcon icon={faMagnifyingGlass} onClick={openSearch} />
                             <FontAwesomeIcon icon={faEllipsisVertical} />
                         </div>
                     </div>
+                    <input className='search input' ref={searchBarRef}/>
                 </header>
                 <div ref={messagesRef} className='column dialogs chat-dialogs'>
-                    { dialog.messages?.map(item => {
-                        return <div className='row dialog message'>
+                    { dialog.messages?.map((item, index) => {
+                        return <div className='row dialog message' key={index}>
                             <div className='dialog-img'>
-                                <p>{item.fromMe ? dialog.user[0] : 'ME'}</p>
+                                <p>{!item.fromMe ? dialog.user[0] : 'You'}</p>
                             </div>
                             <div className='column'>
                                 <h3>
@@ -106,7 +137,7 @@ const ChatPage = () => {
                     }) }
                 </div >
                 <div className='chat-input'>
-                    <input type='text' placeholder='Type your message' onKeyUp={handleMessage}/>
+                    <input className='input' placeholder='Type your message' onKeyUp={handleMessage}/>
                     <div className='row jst-start'>
                         <FontAwesomeIcon className='fa-lg' icon={faFaceSmile} />
                         <FontAwesomeIcon className='fa-lg' icon={faLocationDot} />

@@ -1,7 +1,9 @@
-.chat
+.chat-header
   position: relative
   background: #1a1a1a
   border-radius: 15px
+  transition-duration: .5s
+  top: 0
   .dialog-img
     margin-right: 15px
   .chat-settings
@@ -9,6 +11,21 @@
     position: absolute
     top: 10px
     right: 0
+
+.header-hide
+  top: -150px !important
+  transition-duration: .5s
+
+.search
+  top: -150px
+  position: relative
+  background: #1a1a1a
+  border-radius: 15px
+  transition-duration: .5s
+
+.search-active
+  top: -40px
+  transition-duration: .5s
 
 .chat-dialogs
   min-height: 30%
@@ -32,12 +49,3 @@
   .row
     margin-top: 10px
     gap: 20px
-  input
-    width: 100%
-    border: none
-    line-height: 44px
-    background: #1a1a1a
-    border-radius: 15px
-    color: #fff
-    padding: 0 10px
-    font-size: 16px
