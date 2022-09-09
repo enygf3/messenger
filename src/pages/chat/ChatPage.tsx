@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisVertical, faFaceSmile, faGear, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import {ChatDialog} from "./types";
 import './styles.sass'
 
@@ -67,18 +67,18 @@ const ChatPage = () => {
     })
     return (
         <>
-            <header>
-                <div className='row jst-start chat'>
-                    <div className='dialog-img'>
-                        <p>{dialog.user[0]}</p>
-                    </div>
-                    <h3>{dialog.user}</h3>
-                    <div className='chat-settings'>
-                        <FontAwesomeIcon icon={faEllipsisVertical} />
-                    </div>
-                </div>
-            </header>
             <main>
+                <header>
+                    <div className='row jst-start chat'>
+                        <div className='dialog-img'>
+                            <p>{dialog.user[0]}</p>
+                        </div>
+                        <h3>{dialog.user}</h3>
+                        <div className='chat-settings'>
+                            <FontAwesomeIcon icon={faEllipsisVertical} />
+                        </div>
+                    </div>
+                </header>
                 <div className='column dialogs chat-dialogs'>
                     { dialog.messages?.map(item => {
                         return <div className='row dialog message'>
@@ -98,6 +98,11 @@ const ChatPage = () => {
                 </div>
                 <div className='chat-input'>
                     <input type='text' placeholder='Type your message'/>
+                    <div className='row jst-start'>
+                        <FontAwesomeIcon className='fa-lg' icon={faFaceSmile} />
+                        <FontAwesomeIcon className='fa-lg' icon={faLocationDot} />
+                        <FontAwesomeIcon className='fa-lg' icon={faGear} />
+                    </div>
                 </div>
             </main>
         </>
