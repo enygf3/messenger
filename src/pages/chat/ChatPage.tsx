@@ -108,7 +108,7 @@ const ChatPage = () => {
             <main>
                 <header>
                     <div className='row jst-start chat-header' ref={chatHeaderRef}>
-                        <div className='dialog-img'>
+                        <div className='circle-img'>
                             <p>{dialog.user[0]}</p>
                         </div>
                         <h3>{dialog.user}</h3>
@@ -122,7 +122,7 @@ const ChatPage = () => {
                 <div ref={messagesRef} className='column dialogs chat-dialogs'>
                     { dialog.messages?.map((item, index) => {
                         return <div className='row dialog message' key={index}>
-                            <div className='dialog-img'>
+                            <div className='circle-img'>
                                 <p>{!item.fromMe ? dialog.user[0] : 'You'}</p>
                             </div>
                             <div className='column'>

@@ -50,7 +50,7 @@ const HomePage = () => {
                     <h3>Messages</h3>
                     { dialogs?.map(item => {
                         return <div className='row dialog'>
-                            <div className='dialog-img'>
+                            <div className='circle-img'>
                                 <p>{item.username[0]}</p>
                             </div>
                             <div className='column'>
