@@ -1,9 +1,10 @@
 import React from 'react';
-import PrivateWrapper from "./core/components/PrivateWrapper/PrivateWrapper";
 import {Route, Routes} from "react-router-dom";
+import PrivateWrapper from "./core/components/PrivateWrapper/PrivateWrapper";
 import HomePage from "./pages/home/HomePage";
 import './app.sass'
 import ChatPage from "./pages/chat/ChatPage";
+import LoginPage from "./pages/login/Login";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route element={<PrivateWrapper />}>
               <Route path="/chat" element={<ChatPage />} />
           </Route>
+          <Route path='/login' element={<LoginPage />}/>
       </Routes>
     </>
   );
